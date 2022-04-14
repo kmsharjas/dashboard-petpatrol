@@ -1,0 +1,79 @@
+<table class="w-full rounded-md ring-1 ring-gray-200 overflow-hidden" mat-table #table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="sl">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Sl No.</th>
+    <td mat-cell *matCellDef="let row; index as i">{{ i+1 }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let row">{{ row.customer_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Mobile</th>
+    <td mat-cell *matCellDef="let row">{{ row.customer_mobile }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="offer">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Order ID</th>
+    <td mat-cell *matCellDef="let row">
+      <a [routerLink]="row.id">
+        {{ row.order_id }}
+      </a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="paymentId">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Payment ID</th>
+    <td mat-cell *matCellDef="let row">{{ row.payment.payment_id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalAmt">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Total</th>
+    <td mat-cell *matCellDef="let row">{{ row.total_amount }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalItm">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Total Items</th>
+    <td mat-cell *matCellDef="let row">{{ row.total_items }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="orderTime">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Order Date</th>
+    <td mat-cell *matCellDef="let row">{{ row.payment. created_at | date:'dd-MM-yyyy'}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="orderStatus">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Order Status</th>
+    <td mat-cell *matCellDef="let row">{{ row.order_status }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="paymentStatus">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Payment Status</th>
+    <td mat-cell *matCellDef="let row">{{ row.payment.payment_status }}</td>
+  </ng-container>
+
+  <!-- <ng-container matColumnDef="deliveryStatus">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Delivery Status</th>
+    <td mat-cell *matCellDef="let row">{{ row.delivery_status }}</td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="actions">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row" class="text-right">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <!-- <button mat-menu-item (click)="onEdit(row)">Process</button> -->
+        <button mat-menu-item class="text-red-500" (click)="onDelete(row)">
+          Delete
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayColoumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColoumns"></tr>
+</table>

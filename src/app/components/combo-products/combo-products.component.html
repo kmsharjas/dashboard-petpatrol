@@ -1,0 +1,89 @@
+<table class="w-full rounded-md ring-1 ring-gray-200 overflow-hidden" mat-table #table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let row">
+      <span class="flex gap-2 items-center py-2">
+        <img [src]="row.images" alt="row.name" class="w-12 h-12 rounded-md" />
+        <span>{{ row.name }}</span>
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="desc">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Description</th>
+    <td mat-cell *matCellDef="let row">{{ row.desc }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>price</th>
+    <td mat-cell *matCellDef="let row">{{ row.price }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row" class="text-right">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <!-- <button mat-menu-item >Edit</button> -->
+        <button mat-menu-item (click)="onEdit(row)">Edit</button>
+        <!-- <button mat-menu-item class="text-red-500"> -->
+        <button mat-menu-item class="text-red-500" (click)="onDelete(row)">
+          Delete
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayColoumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColoumns"></tr>
+</table>
+
+<button mat-fab class="fixed bottom-4 right-4 bg-green-500" (click)="isOpen = !isOpen" cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin">
+  <mat-icon>add</mat-icon>
+</button>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="resetVariables()"
+  [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen" [cdkConnectedOverlayOffsetX]="-80"
+  [cdkConnectedOverlayOffsetY]="48">
+  <div class="bg-white w-auto px-6 py-8 rounded-md shadow-md" role="dialog">
+    <div class="flex space-x-4 items-center">
+      <mat-icon inline class="h-12 text-5xl">account_circle</mat-icon>
+      <p class="font-bold text-2xl m-0">
+        {{ isEditing ? "Update" : "Add" }} Combo Product
+      </p>
+    </div>
+
+    <form [formGroup]="comboProductForm" class="relative mt-4 flex gap-6 items-stretch overflow-y-auto"
+      (submit)="onSubmit()">
+      <div class="w-full flex relative flex-col gap-4 items-stretch">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Product Name" name="name" formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput name="name" formControlName="desc" cols="30" rows="3"></textarea>
+        </mat-form-field>
+
+        <div class="my-1">
+          <mat-label class="text-sm font-medium text-gray-900 block mb-2">
+            Product Image
+          </mat-label>
+          <input
+            class="block w-full cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg"
+            type="file" accept="image/*" formControlName="images" (change)="onFileChange($event)" />
+        </div>
+
+        <button mat-raised-button type="submit" [disabled]="comboProductForm.invalid" color="primary"
+          class="self-center w-1/2 rounded-full">
+          {{ isEditing ? "Update" : "Create" }}
+        </button>
+
+      </div>
+
+    </form>
+  </div>
+</ng-template>

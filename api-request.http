@@ -1,0 +1,7 @@
+POST http://122.165.124.159:8001/login/
+content-type: application/json
+
+{
+    "username": "anju",
+    "password": "anju"
+}

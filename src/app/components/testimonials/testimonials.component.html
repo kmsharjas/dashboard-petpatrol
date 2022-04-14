@@ -1,0 +1,36 @@
+<table class="w-full rounded-md ring-1 ring-gray-200 overflow-hidden" mat-table #table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Review</th>
+    <td mat-cell *matCellDef="let row">{{ row.review }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="customerName">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Customer</th>
+    <td mat-cell *matCellDef="let row">{{ row.customerid }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="show">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Show</th>
+    <td mat-cell *matCellDef="let row">
+      <mat-slide-toggle [checked]="row.isShown" (change)="toggleShow(row)"></mat-slide-toggle>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row" class="text-right">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <!-- <button mat-menu-item (click)="onEdit(row)">Edit</button> -->
+        <button mat-menu-item class="text-red-500" (click)="onDelete(row)">
+          Delete
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayColoumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColoumns"></tr>
+</table>

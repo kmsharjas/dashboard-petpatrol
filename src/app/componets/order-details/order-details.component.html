@@ -1,0 +1,130 @@
+<div class="container mx-auto flex flex-col gap-12" *ngIf="order$ | async as order">
+  <div class="rounded-md shadow bg-white p-6">
+    <p class="font-bold tex-xl mb-2">Order Details</p>
+    <p>Order ID: {{ order.id }}</p>
+    <p>Placed: {{ order.payment.created_at | date:'medium' }}</p>
+    <p>Order Status: {{ order.order_status }}</p>
+    <p>Customer Name: {{ order.customer_name }}</p>
+    <p>Mobile: {{ order.customer_mobile }}</p>
+    <p>AdressType {{ order.customer_address.match('\[h,H]ome|[W,w]ork| [o,O]thers\g') }} </p>
+    <p>Address: {{ parseAdress(order.customer_address) }}</p>
+  </div>
+
+  <div class="rounded-md shadow bg-white p-6">
+    <p class="font-bold tex-xl mb-2">Payment Details</p>
+    <p>Razorpay Order ID: {{ order.order_id }}</p>
+    <p>Payment ID: {{ order.payment.payment_id }}</p>
+    <p>
+      Payment Status:
+      <span [ngClass]="{'text-red-500': order.payment.payment_status === 'refunded'}">
+        {{ order.payment.payment_status }}
+      </span> &nbsp;
+      <a [matMenuTriggerFor]="menu">change</a>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="changePaymentStatus(order, 'refunded')">Refund</button>
+      </mat-menu>
+    </p>
+  </div>
+
+
+
+  <div class="rounded-md shadow bg-white overflow-hidden pb-4">
+    <table class="min-w-full">
+      <thead class="bg-slate-200">
+        <tr>
+          <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+            Item</th>
+          <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+            Price</th>
+          <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+            Quantity</th>
+          <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase">
+            Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-white border-b" *ngFor="let item of order.items">
+          <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
+            <div class="flex gap-2 items-center">
+              <!-- <img class="w-12 h-12 rounded" [src]="item.product_image" [alt]="item.product_name"> -->
+              <p>{{item.name}}</p>
+            </div>
+          </td>
+          <td class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">{{item.unit_price|currency:'INR'}}</td>
+          <td class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">{{item.quantity}}</td>
+          <td class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">{{item.total_price|currency:'INR'}}</td>
+        </tr>
+        <tr class="bg-white">
+          <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
+          </td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap"></td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap">Total</td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap font-bold">{{order.total_amount
+            |currency:'INR'}}
+          </td>
+        </tr>
+        <!-- <tr class="bg-white">
+          <td class="py-2 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
+          </td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap"></td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap">Delivery Charge</td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap font-bold">₹ 50</td>
+        </tr> -->
+        <tr class="bg-white">
+          <td class="py-2 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
+          </td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap"></td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap font-bold">Grand Total</td>
+          <td class="py-2 px-6 text-sm text-gray-500 whitespace-nowrap font-bold">{{order.total_amount
+            |currency:'INR'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--Delivery Updation-->
+  <div class="rounded-md shadow bg-white p-6">
+    <p class="font-bold tex-xl mb-2">Delivery Details</p>
+
+    <!-- <p>Courrier:
+      <span>
+        {{ order.payment.courier }}
+      </span> &nbsp;
+      <a [matMenuTriggerFor]="courriersMenu" *ngIf="!order.payment.dispatched_at">change</a>
+      <mat-menu #courriersMenu="matMenu">
+        <button *ngFor="let item of ['Professionals Courrier', 'Blue Dart','Delhivery','Trackon']" mat-menu-item
+          (click)="changeCourier(order, item)">
+          {{ item}}
+        </button>
+      </mat-menu>
+    </p>
+    <p>Consignment No:
+      <input class="border-0 border-b border-slate-400 focus:ring-0 focus:border-b-2 focus:border-green-400" type="text"
+        [(ngModel)]="order.payment.consignment_number">
+      <a *ngIf="!order.payment.dispatched_at" (click)="updateOrder(order)">Update</a>
+    </p> -->
+    <p>
+      Order Status:
+      <span [ngClass]="{'text-red-500': order.order_status === 'cancelled'}">
+        {{ order.order_status }}
+      </span> &nbsp;
+      <!-- <a *ngIf="order.payment.courier && order.payment.consignment_number" [matMenuTriggerFor]="dvmenu">change</a> -->
+      <a [matMenuTriggerFor]="dvmenu">change</a>
+      <mat-menu #dvmenu="matMenu">
+        <button mat-menu-item (click)="changeDeliveryStatus(order, OrderStatus.SHIPPED)">Dispatched</button>
+        <button mat-menu-item (click)="changeDeliveryStatus(order, OrderStatus.OUT_FOR_DELIVERY)">
+          Out For Delivery
+        </button>
+        <button mat-menu-item (click)="changeDeliveryStatus(order, OrderStatus.DELIVERED)">
+          Successfully Delivered
+        </button>
+      </mat-menu>
+    </p>
+    <br>
+    <p *ngIf="order.payment.dispatched_at">Shipped At: {{ order.payment.dispatched_at | date: 'short'}}</p>
+    <p *ngIf="order.payment.outfordelivery_at">Out for delivery At: {{ order.payment.outfordelivery_at | date: 'short'}}
+    </p>
+    <p *ngIf="order.payment.delivered_at">Delivered At: {{ order.payment.delivered_at | date: 'short' }}</p>
+  </div>
+
+</div>

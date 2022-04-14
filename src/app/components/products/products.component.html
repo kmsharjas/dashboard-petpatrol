@@ -1,0 +1,210 @@
+<table class="w-full rounded-md ring-1 ring-gray-200 overflow-hidden" mat-table #table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let row">
+      <span class="flex gap-2 items-center py-2">
+        <img [src]="row.pdt_img" alt="row.name" class="w-12 h-12 rounded-md" />
+        <span>{{ row.name }}</span>
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Description</th>
+    <td mat-cell *matCellDef="let row">{{ row.desc }}</td>
+  </ng-container>
+  <ng-container matColumnDef="category">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Category</th>
+    <td mat-cell *matCellDef="let row">{{ row.categorys }}</td>
+  </ng-container>
+  <!-- <ng-container matColumnDef="subcategory">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Sub Category</th>
+    <td mat-cell *matCellDef="let row">{{ row.subcategory }}</td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="actualprice">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Price</th>
+    <td mat-cell *matCellDef="let row">{{ row.actual_price | currency: "INR" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Price GST Included</th>
+    <td mat-cell *matCellDef="let row">{{ row.price | currency: "INR" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="offer">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Offer</th>
+    <td mat-cell *matCellDef="let row">{{ row.offertypes }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row" class="text-right">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onEdit(row)">Edit</button>
+        <button mat-menu-item class="text-red-500" (click)="onDelete(row)">
+          Delete
+        </button>
+      </mat-menu>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayColoumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColoumns"></tr>
+</table>
+
+<button mat-fab class="fixed bottom-4 right-4 bg-green-500" (click)="isOpen = !isOpen" cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin">
+  <mat-icon>add</mat-icon>
+</button>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="resetVariables()"
+  [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen" [cdkConnectedOverlayOffsetX]="-80"
+  [cdkConnectedOverlayOffsetY]="48">
+  <div class="bg-white w-auto px-6 py-8 rounded-md shadow-md" role="dialog">
+    <div class="flex space-x-4 items-center">
+      <mat-icon inline class="h-12 text-5xl">inventory_2</mat-icon>
+      <p class="font-bold text-2xl m-0">
+        {{ isEditing ? "Update" : "Add" }} Product
+      </p>
+    </div>
+    <form [formGroup]="productForm" class="relative mt-4 flex gap-6 items-stretch overflow-y-auto"
+      (submit)="onSubmit()">
+      <div class="w-full flex relative flex-col gap-4 items-stretch">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Product Name" name="name" formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput name="name" formControlName="desc" cols="30" rows="3"></textarea>
+        </mat-form-field>
+
+        <div class="my-1">
+          <mat-label class="text-sm font-medium text-gray-900 block mb-2">
+            Product Image
+          </mat-label>
+          <input
+            class="block w-full cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg"
+            type="file" accept="image/*" formControlName="pdt_img" (change)="onFileChange($event)" />
+        </div>
+
+        <div class="my-1 flex items-center justify-between">
+          <mat-label class="text-sm font-medium text-gray-900 block mb-2">
+            Product Available
+          </mat-label>
+          <mat-slide-toggle formControlName="isproductactive"></mat-slide-toggle>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Video URL</mat-label>
+          <input matInput placeholder="Video URL" formControlName="vedio_url" />
+        </mat-form-field>
+      </div>
+
+      <div class="w-full relative flex flex-col gap-2 items-stretch">
+        <!-- <div class="my-1 flex items-center justify-between">
+          <mat-label class="text-sm font-medium text-gray-900 block mb-2">
+            Offer Available
+          </mat-label>
+          <mat-slide-toggle formControlName="isofferactive"></mat-slide-toggle>
+        </div> -->
+
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Offer Title</mat-label>
+          <input
+            matInput
+            placeholder="Offer Title"
+            formControlName="offertitle"
+          />
+        </mat-form-field> -->
+
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Start date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker1"
+            formControlName="startdate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>End date</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="enddate" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <input matInput placeholder="Price" formControlName="price" type="number" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <!-- <mat-label>Unit</mat-label>
+          <input matInput formControlName="unit" /> -->
+          <mat-select placeholder="Unit" formControlName="unit">
+            <mat-option *ngFor="let unit of Units$ | async" [value]="unit.id">
+              {{unit.units}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>GST Percentage</mat-label>
+          <input matInput placeholder="GST Percentage" formControlName="gst" type="number" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Category" formControlName="category">
+            <mat-option *ngFor="let category of categories$ | async" [value]="category.id">
+              {{category.category}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Sub Category" formControlName="subcategory">
+            <mat-option *ngFor="let subCategory of subCategories$ | async" [value]="subCategory.id">
+              {{subCategory.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Offer type" formControlName="offer_type">
+            <mat-option *ngFor="let offer of offers$ | async" [value]="offer.id">{{offer.offertitle}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Start date</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="startdate" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>End date</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="enddate" />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <button mat-raised-button type="submit" [disabled]="productForm.invalid" color="primary"
+          class="self-center w-1/2 rounded-full">
+          {{ isEditing ? "Update" : "Create" }}
+        </button>
+
+      </div>
+
+
+    </form>
+  </div>
+</ng-template>
