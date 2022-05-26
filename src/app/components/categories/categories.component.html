@@ -1,14 +1,18 @@
 <div class="p-6 flex gap-6">
-  <button mat-button class="bg-green-100 text-green-500" [ngClass]="{'bg-green-300': type === 'category'}"
-    (click)="type = 'category'">Category</button>
+  <button mat-button class="bg-orange-100 text-orange-500" [ngClass]="{'bg-orange-300': type === 'category'}"
+    (click)="type = 'category'">Animal Category</button>
 
-  <button mat-button class="bg-green-100 text-green-500" [ngClass]="{'bg-green-300': type === 'subcategory'}"
-    (click)="type = 'subcategory'">Subcategory</button>
+  <button mat-button class="bg-orange-100 text-orange-500" [ngClass]="{'bg-orange-300': type === 'subcategory'}"
+    (click)="type = 'subcategory'">Service Category</button>
+
+  <button mat-button class="bg-orange-100 text-orange-500" [ngClass]="{'bg-orange-300': type === 'servSub'}"
+    (click)="type = 'servSub'">Service SubCategory</button>
 </div>
 
 
 <div class="p-6" [ngSwitch]="type">
   <app-category *ngSwitchCase="'category'"></app-category>
-  <app-sub-category *ngSwitchCase="'subcategory'"></app-sub-category>
+  <app-service-category *ngSwitchCase="'subcategory'"></app-service-category>
+  <app-sub-category *ngSwitchCase="'servSub'"></app-sub-category>
   <app-category *ngSwitchDefault></app-category>
 </div>

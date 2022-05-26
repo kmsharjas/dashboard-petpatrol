@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./categories.component.scss'],
 })
 export class CategoriesComponent {
-  type: 'category' | 'subcategory';
+  type: 'category' | 'subcategory' | 'servSub';
 
   constructor() {
     this.type = 'category';

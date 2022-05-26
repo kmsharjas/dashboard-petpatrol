@@ -1,13 +1,12 @@
-export interface Offer {
+export interface Package {
   id?: number;
-  offer: string;
+  offertitle: string;
   startdate: Date | string;
   enddate: Date | string;
   isofferactive: boolean;
   minimumquantity: 1;
 }
-
-// export interface Offer {
-//   id: number;
-//   offer: string;
-// }
+export interface Packing {
+  id: number;
+  type: string;
+}

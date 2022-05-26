@@ -2,7 +2,14 @@
   <ng-container matColumnDef="name">
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Name</th>
     <td mat-cell *matCellDef="let row">
-      <span>{{ row.animal }}</span>
+      <span>{{ row.service }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="category">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Animal Category</th>
+    <td mat-cell *matCellDef="let row">
+      <span *ngIf="categories">{{ findCategory(row.animal) }}</span>
     </td>
   </ng-container>
 
@@ -37,22 +44,26 @@
     <div class="flex space-x-4 items-center">
       <mat-icon inline class="h-12 text-5xl">category</mat-icon>
       <p class="font-bold text-2xl m-0">
-        {{ isEditing ? "Update" : "Add" }} Animal Category
+        {{ isEditing ? "Update" : "Add" }} Service Category
       </p>
     </div>
 
-    <form [formGroup]="categoryForm" class="relative mt-4 flex flex-col gap-6 items-stretch" (submit)="onSubmit()">
+    <form [formGroup]="subCategoryForm" class="relative mt-4 flex flex-col gap-6 items-stretch" (submit)="onSubmit()">
       <mat-form-field appearance="outline">
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Category Name" name="name" formControlName="animal" />
+        <mat-label>Service Tittle</mat-label>
+        <input matInput placeholder="Category Name" name="name" formControlName="service" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Image</mat-label>
-        <input matInput placeholder="Category Image" name="image" formControlName="image" />
+        <mat-label>Animal Category</mat-label>
+        <mat-select placeholder="Placeholder" name="category" formControlName="animal">
+          <mat-option *ngFor="let item of categories" [value]="item.id">
+            {{item.animal}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button type="submit" [disabled]="categoryForm.invalid" color="primary"
+      <button mat-raised-button type="submit" [disabled]="subCategoryForm.invalid" color="primary"
         class="self-center w-1/2 rounded-full">
         {{ isEditing ? "Update" : "Create" }}
       </button>

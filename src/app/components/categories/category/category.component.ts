@@ -28,7 +28,7 @@ export class CategoryComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.categoryForm = this.fb.group({
-      category: ['', Validators.required],
+      animal: ['', Validators.required],
       image: [null],
     });
   }
@@ -47,6 +47,8 @@ export class CategoryComponent implements OnInit {
 
   onSubmit() {
     const category = this.categoryForm.value;
+    console.log(category);
+
     this.isEditing
       ? this.updateCategory(category)
       : this.createCategory(category);

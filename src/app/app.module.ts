@@ -23,6 +23,9 @@ import { BannersComponent } from './components/banners/banners.component';
 import { BlogsComponent } from './components/blogs/blogs.component';
 import { OrderDetailsComponent } from './componets/order-details/order-details.component';
 import { EventComponent } from './components/event/event.component';
+import { ServiceCategoryComponent } from './components/categories/service-category/service-category.component';
+import { PackingComponent } from './components/packing/packing.component';
+import { CustomersComponent } from './components/customers/customers.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { EventComponent } from './components/event/event.component';
     BlogsComponent,
     OrderDetailsComponent,
     EventComponent,
+    ServiceCategoryComponent,
+    PackingComponent,
+    CustomersComponent,
   ],
   imports: [
     BrowserModule,

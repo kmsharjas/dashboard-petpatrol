@@ -1,32 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject, Observable, observable, switchMap } from 'rxjs';
-import {
-  Category,
-  ServiceSub,
-  SubCategory,
-} from 'src/app/model/category.model';
+import { BehaviorSubject, switchMap } from 'rxjs';
+import { SubCategory, Category } from 'src/app/model/category.model';
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
-  selector: 'app-sub-category',
-  templateUrl: './sub-category.component.html',
-  styleUrls: ['./sub-category.component.scss'],
+  selector: 'app-service-category',
+  templateUrl: './service-category.component.html',
+  styleUrls: ['./service-category.component.scss'],
 })
-export class SubCategoryComponent implements OnInit {
+export class ServiceCategoryComponent implements OnInit {
   refresh$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   isOpen: boolean = false;
   isEditing: boolean = false;
 
-  currentSubCategory?: ServiceSub;
+  currentSubCategory?: SubCategory;
 
-  categories: SubCategory[];
+  categories: Category[];
 
   displayColoumns: string[] = ['name', 'category', 'actions'];
-  dataSource: MatTableDataSource<ServiceSub> =
-    new MatTableDataSource<ServiceSub>();
+  dataSource: MatTableDataSource<SubCategory> =
+    new MatTableDataSource<SubCategory>();
 
   subCategoryForm: FormGroup;
 
@@ -35,8 +31,8 @@ export class SubCategoryComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.subCategoryForm = this.fb.group({
-      subcategory: [null, Validators.required],
       service: [null, Validators.required],
+      animal: [null, Validators.required],
       image: [null],
     });
   }
@@ -47,15 +43,14 @@ export class SubCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh$
-      .pipe(switchMap(() => this.categoryService.getServiceSubCategories()))
+      .pipe(switchMap(() => this.categoryService.getServiceCategories()))
       .subscribe((subCategory) => {
-        this.dataSource = new MatTableDataSource<ServiceSub>(subCategory);
+        this.dataSource = new MatTableDataSource<SubCategory>(subCategory);
       });
 
-    this.categoryService.getServiceCategories().subscribe(
-      (categories) => (this.categories = categories)
-      // console.log(categories)
-    );
+    this.categoryService
+      .getCategories()
+      .subscribe((categories) => (this.categories = categories));
   }
 
   onSubmit() {
@@ -65,36 +60,35 @@ export class SubCategoryComponent implements OnInit {
       : this.createSubCategory(subCategory);
   }
 
-  onEdit(subCategory: ServiceSub) {
+  onEdit(subCategory: SubCategory) {
     this.isEditing = true;
     this.currentSubCategory = subCategory;
     this.subCategoryForm.patchValue(subCategory);
     this.isOpen = true;
   }
 
-  onDelete(subCategory: ServiceSub) {
+  onDelete(subCategory: SubCategory) {
     this.categoryService
-      .deleteServiceSubCategory(subCategory)
+      .deleteServiceCategory(subCategory)
       .subscribe(() => this.resetVariables());
   }
 
-  createSubCategory(subCategory: ServiceSub) {
+  createSubCategory(subCategory: SubCategory) {
     this.categoryService
-      .addServiceSubCategory(subCategory)
+      .addServiceCategory(subCategory)
       .subscribe((res) => this.resetVariables());
   }
 
-  updateSubCategory(subCategory: ServiceSub) {
+  updateSubCategory(subCategory: SubCategory) {
     this.categoryService
-      .updateServiceSubCategory({
-        id: this.currentSubCategory.id,
-        ...subCategory,
-      })
+      .updateServiceCategory({ id: this.currentSubCategory.id, ...subCategory })
       .subscribe((res) => this.resetVariables());
   }
 
   findCategory(id: number) {
-    return this.categories.find((category) => category.id === id)?.service;
+    console.log(this.categories);
+
+    return this.categories.find((category) => category.id === id)?.animal;
   }
 
   resetVariables() {

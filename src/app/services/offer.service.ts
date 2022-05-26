@@ -12,18 +12,18 @@ export class OfferService {
   constructor(private http: HttpClient) {}
 
   getOffers() {
-    return this.http.get<Offer[]>(`${this.apiRoot}/listoffer`);
+    return this.http.get<Offer[]>(`${this.apiRoot}/listoffers`);
   }
 
   addOffer(offer: Offer) {
-    return this.http.post(`${this.apiRoot}/addoffer`, offer);
+    return this.http.post(`${this.apiRoot}/addoffers`, offer);
   }
 
   updateOffer(offer: Offer) {
     // console.log(offer);
     const { id, ...data } = offer;
     // console.log(offer);
-    return this.http.put(`${this.apiRoot}/updateoffer/${id}`, data);
+    return this.http.put(`${this.apiRoot}/updateoffers/${id}`, data);
   }
 
   deleteOffer(offer: Offer) {

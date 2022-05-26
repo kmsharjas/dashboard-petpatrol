@@ -1,7 +1,7 @@
 <table class="w-full rounded-md ring-1 ring-gray-200 overflow-hidden" mat-table #table [dataSource]="dataSource">
   <ng-container matColumnDef="name">
-    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Offer Tittle</th>
-    <td mat-cell *matCellDef="let row">{{ row.offer }}</td>
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Packing Type</th>
+    <td mat-cell *matCellDef="let row">{{ row.type }}</td>
   </ng-container>
   <!--
   <ng-container matColumnDef="price">
@@ -45,25 +45,55 @@
     <div class="flex space-x-4 items-center">
       <mat-icon inline class="h-12 text-5xl">local_offer</mat-icon>
       <p class="font-bold text-2xl m-0">
-        {{ isEditing ? "Update" : "Add" }} Offers
+        {{ isEditing ? "Update" : "Add" }} Packing
       </p>
     </div>
 
-    <form [formGroup]="offerForm" class="relative mt-4 flex gap-6 items-stretch overflow-y-auto" (submit)="onSubmit()">
+    <form [formGroup]="packingForm" class="relative mt-4 flex gap-6 items-stretch overflow-y-auto"
+      (submit)="onSubmit()">
       <div class="w-full flex relative flex-col gap-4 items-stretch">
         <mat-form-field appearance="outline">
-          <mat-label>Tittle</mat-label>
-          <input matInput placeholder="Product Name" name="name" formControlName="offer" />
+          <mat-label>Packing</mat-label>
+          <input matInput placeholder="Product Name" name="name" formControlName="type" />
         </mat-form-field>
 
-        <button mat-raised-button type="submit" [disabled]="offerForm.invalid" color="primary"
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Start date</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="startdate" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+
+        <div class="my-1 flex items-center justify-between">
+          <mat-label class="text-sm font-medium text-gray-900 block mb-2">
+            Offer Available
+          </mat-label>
+          <mat-slide-toggle formControlName="isofferactive"></mat-slide-toggle>
+        </div> -->
+        <button mat-raised-button type="submit" [disabled]="packingForm.invalid" color="primary"
           class="self-center w-1/2 rounded-full">
           {{ isEditing ? "Update" : "Create" }}
         </button>
-
       </div>
 
+      <div class="w-full relative flex flex-col gap-2 items-stretch">
 
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Minimum Qty</mat-label>
+          <input matInput placeholder="Price" formControlName="minimumquantity" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>End date</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="enddate" />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field> -->
+
+
+
+      </div>
 
 
     </form>

@@ -3,12 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
-import { Category, SubCategory } from 'src/app/model/category.model';
+import {
+  Category,
+  ServiceSub,
+  SubCategory,
+} from 'src/app/model/category.model';
 import { Offer } from 'src/app/model/offer.model';
+import { Packing } from 'src/app/model/packing.model';
 import { Product } from 'src/app/model/product.model';
 import { Unit } from 'src/app/model/unit.model';
 import { CategoryService } from 'src/app/services/category.service';
 import { OfferService } from 'src/app/services/offer.service';
+import { PackingService } from 'src/app/services/packing.service';
 import { ProductService } from 'src/app/services/product.service';
 import { UnitService } from 'src/app/services/unit.service';
 
@@ -26,9 +32,11 @@ export class ProductsComponent implements OnInit {
   products?: Product[];
 
   offers$?: Observable<Offer[]>;
+  packing$?: Observable<Packing[]>;
 
-  categories$: Observable<Category[]>;
-  subCategories$: Observable<SubCategory[]>;
+  animalCategories$: Observable<Category[]>;
+  serviceCategories$: Observable<SubCategory[]>;
+  serviceSubCategories$: Observable<ServiceSub[]>;
   Units$: Observable<Unit[]>;
 
   dataSource = new MatTableDataSource<Product>();
@@ -38,7 +46,7 @@ export class ProductsComponent implements OnInit {
     'category',
     // 'subcategory',
     'actualprice',
-    'price',
+    // 'price',
     'offer',
     'actions',
   ];
@@ -54,22 +62,35 @@ export class ProductsComponent implements OnInit {
     private categoryService: CategoryService,
     private offerService: OfferService,
     private unitService: UnitService,
+    private packageService: PackingService,
     private fb: FormBuilder
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
-      desc: ['', Validators.required],
+      description: ['', Validators.required],
       price: ['', Validators.required],
-      pdt_img: [null],
-      vedio_url: ['', Validators.required],
-      unit: [null, Validators.required],
-      category: ['', Validators.required],
-      subcategory: ['', Validators.required],
-      offer_type: [null, Validators.required],
-      isproductactive: [false, Validators.required],
-      gst: [null, Validators.required],
-      startdate: [new Date(), Validators.required],
-      enddate: [new Date(), Validators.required],
+      countInstock: ['', Validators.required],
+      animalCategory: ['', Validators.required],
+      serviceCategory: ['', Validators.required],
+      serviceSubcategory: ['', Validators.required],
+      gstPercentage: ['', Validators.required],
+      offertitle: ['', Validators.required],
+      isProductiveactive: ['', Validators.required],
+      startDate: [new Date(), Validators.required],
+      endDate: [new Date(), Validators.required],
+      units: ['', Validators.required],
+      thumbnail_img: ['', Validators.required],
+      packaging_type: ['', Validators.required],
+      // pdt_img: [null],
+      // vedio_url: ['', Validators.required],
+      // unit: [null, Validators.required],
+      // category: ['', Validators.required],
+      // subcategory: ['', Validators.required],
+      // offer_type: [null, Validators.required],
+      // isproductactive: [false, Validators.required],
+      // gst: [null, Validators.required],
+      // startdate: [new Date(), Validators.required],
+      // enddate: [new Date(), Validators.required],
     });
   }
 
@@ -88,9 +109,10 @@ export class ProductsComponent implements OnInit {
       });
 
     this.offers$ = this.offerService.getOffers();
-    this.categories$ = this.categoryService.getCategories();
-    this.subCategories$ = this.categoryService.getSubCategories();
-
+    this.packing$ = this.packageService.getPacking();
+    this.animalCategories$ = this.categoryService.getCategories();
+    this.serviceCategories$ = this.categoryService.getServiceCategories();
+    this.serviceSubCategories$ = this.categoryService.getServiceSubCategories();
     this.Units$ = this.unitService.getUnits();
     this.unit = this.unitService.getUnits();
     // this.productForm.valueChanges.subscribe(console.log);
@@ -101,18 +123,22 @@ export class ProductsComponent implements OnInit {
     // set date format to yyyy-mm-dd
     // product.startdate = formatDate(product.startdate, 'yyyy-MM-dd', 'en');
     // product.enddate = formatDate(product.enddate, 'yyyy-MM-dd', 'en');
-    product.category = +product.category;
-    product.subCategory = +product.subCategory;
-    product.startdate = formatDate(product.startdate, 'yyyy-MM-dd', 'en');
-    product.enddate = formatDate(product.enddate, 'yyyy-MM-dd', 'en');
+    product.animalCategory = +product.animalCategory;
+    product.serviceCategory = +product.serviceCategory;
+    product.serviceSubcategory = +product.serviceSubcategory;
+    product.startDate = formatDate(product.startDate, 'yyyy-MM-dd', 'en');
+    product.endDate = formatDate(product.endDate, 'yyyy-MM-dd', 'en');
     this.isEditing ? this.updateProduct(product) : this.createProduct(product);
   }
 
   onEdit(product: Product) {
+    console.log(product);
+    this.productForm.get('thumbnail_img').setValue(product.thumbnail_img);
     this.isEditing = true;
     this.currentProduct = product;
-    product.price = product.actual_price;
-    this.productForm.patchValue({ ...product, pdt_img: null });
+    // product.price = product.actual_price;
+    product.price = product.price;
+    this.productForm.patchValue({ ...product, thumbnail_img: null });
     this.isOpen = true;
   }
 
@@ -125,6 +151,7 @@ export class ProductsComponent implements OnInit {
   }
 
   onFileChange(event: any) {
+    console.log(event.target.files);
     if (!event.target.files && !event.target.files.length) return;
     const [file] = event.target.files;
     this.productImage = file;
@@ -133,17 +160,17 @@ export class ProductsComponent implements OnInit {
   createProduct(product: Product) {
     if (!this.productImage) return;
     //ipload image
-    // console.log(this.productImage);
+    console.log(this.productImage);
 
     this.productService
       .uploadImage(this.productImage)
       .pipe(
         switchMap((result) => {
-          // console.log(result);
+          console.log(result);
 
-          if (!result || !result.pdt_img) return of(null);
+          if (!result || !result.image) return of(null);
           // console.log(result);
-          product.pdt_img = result.pdt_img;
+          product.thumbnail_img = result.image;
           return this.productService.addProduct(product);
         })
       )
@@ -157,7 +184,7 @@ export class ProductsComponent implements OnInit {
         .updateProduct({
           ...product,
           id: this.currentProduct.id,
-          pdt_img: this.currentProduct.pdt_img,
+          thumbnail_img: this.currentProduct.thumbnail_img,
         })
         .subscribe(() => this.resetVariables());
     }
@@ -166,9 +193,9 @@ export class ProductsComponent implements OnInit {
         .uploadImage(this.productImage)
         .pipe(
           switchMap((result) => {
-            if (!result || !result.pdt_img) return of(null);
+            if (!result || !result.image) return of(null);
             // console.log(result);
-            product.pdt_img = result.pdt_img;
+            product.thumbnail_img = result.image;
             return this.productService.updateProduct({
               ...product,
               id: this.currentProduct?.id,

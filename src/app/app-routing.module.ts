@@ -4,11 +4,13 @@ import { BannersComponent } from './components/banners/banners.component';
 import { BlogsComponent } from './components/blogs/blogs.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { ComboProductsComponent } from './components/combo-products/combo-products.component';
+import { CustomersComponent } from './components/customers/customers.component';
 import { EventComponent } from './components/event/event.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { OffersComponent } from './components/offers/offers.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { PackingComponent } from './components/packing/packing.component';
 import { ProductsComponent } from './components/products/products.component';
 import { TestimonialsComponent } from './components/testimonials/testimonials.component';
 import { UsersComponent } from './components/users/users.component';
@@ -25,8 +27,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'orders', pathMatch: 'full' },
       { path: 'products', component: ProductsComponent },
       { path: 'offers', component: OffersComponent },
+      { path: 'packing', component: PackingComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'orders/:id', component: OrderDetailsComponent },
+      { path: 'customers', component: CustomersComponent },
       { path: 'users', component: UsersComponent },
       { path: 'testimonials', component: TestimonialsComponent },
       { path: 'comboProducts', component: ComboProductsComponent },

@@ -28,9 +28,9 @@ export class ProductService {
 
   uploadImage(image: File) {
     const formData = new FormData();
-    formData.append('pdt_img', image);
-    return this.http.post<{ img_id: string; pdt_img: string }>(
-      `${this.apiRoot}/addproductsimages`,
+    formData.append('image', image);
+    return this.http.post<{ img_id: string; image: string }>(
+      `${this.apiRoot}/addimages`,
       formData
     );
   }

@@ -3,7 +3,7 @@
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Name</th>
     <td mat-cell *matCellDef="let row">
       <span class="flex gap-2 items-center py-2">
-        <img [src]="row.pdt_img" alt="row.name" class="w-12 h-12 rounded-md" />
+        <img [src]="row.thumbnail_img" alt="row.name" class="w-12 h-12 rounded-md" />
         <span>{{ row.name }}</span>
       </span>
     </td>
@@ -11,11 +11,11 @@
 
   <ng-container matColumnDef="description">
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Description</th>
-    <td mat-cell *matCellDef="let row">{{ row.desc }}</td>
+    <td mat-cell *matCellDef="let row">{{ row.description }}</td>
   </ng-container>
   <ng-container matColumnDef="category">
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Category</th>
-    <td mat-cell *matCellDef="let row">{{ row.categorys }}</td>
+    <td mat-cell *matCellDef="let row">{{ row.animalCategory_name }}</td>
   </ng-container>
   <!-- <ng-container matColumnDef="subcategory">
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Sub Category</th>
@@ -24,17 +24,17 @@
 
   <ng-container matColumnDef="actualprice">
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Price</th>
-    <td mat-cell *matCellDef="let row">{{ row.actual_price | currency: "INR" }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="price">
-    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Price GST Included</th>
     <td mat-cell *matCellDef="let row">{{ row.price | currency: "INR" }}</td>
   </ng-container>
 
+  <!-- <ng-container matColumnDef="price">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Price GST Included</th>
+    <td mat-cell *matCellDef="let row">{{ row.price | currency: "INR" }}</td>
+  </ng-container> -->
+
   <ng-container matColumnDef="offer">
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Offer</th>
-    <td mat-cell *matCellDef="let row">{{ row.offertypes }}</td>
+    <td mat-cell *matCellDef="let row">{{ row.offertitle }}</td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
@@ -81,7 +81,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Description</mat-label>
-          <textarea matInput name="name" formControlName="desc" cols="30" rows="3"></textarea>
+          <textarea matInput name="name" formControlName="description" cols="30" rows="3"></textarea>
         </mat-form-field>
 
         <div class="my-1">
@@ -90,62 +90,43 @@
           </mat-label>
           <input
             class="block w-full cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg"
-            type="file" accept="image/*" formControlName="pdt_img" (change)="onFileChange($event)" />
+            type="file" accept="image/*" formControlName="thumbnail_img" (change)="onFileChange($event)" />
         </div>
 
         <div class="my-1 flex items-center justify-between">
           <mat-label class="text-sm font-medium text-gray-900 block mb-2">
             Product Available
           </mat-label>
-          <mat-slide-toggle formControlName="isproductactive"></mat-slide-toggle>
+          <mat-slide-toggle formControlName="isProductiveactive"></mat-slide-toggle>
         </div>
 
         <mat-form-field appearance="outline">
-          <mat-label>Video URL</mat-label>
-          <input matInput placeholder="Video URL" formControlName="vedio_url" />
+          <mat-select placeholder="Animal Category" formControlName="animalCategory">
+            <mat-option *ngFor="let category of animalCategories$ | async" [value]="category.id">
+              {{category.animal}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Service Category" formControlName="serviceCategory">
+            <mat-option *ngFor="let serCategory of serviceCategories$ | async" [value]="serCategory.id">
+              {{serCategory.service}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Service Sub-Category" formControlName="serviceSubcategory">
+            <mat-option *ngFor="let subCategory of serviceSubCategories$ | async" [value]="subCategory.id">
+              {{subCategory.subcategory}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+
       </div>
 
       <div class="w-full relative flex flex-col gap-2 items-stretch">
-        <!-- <div class="my-1 flex items-center justify-between">
-          <mat-label class="text-sm font-medium text-gray-900 block mb-2">
-            Offer Available
-          </mat-label>
-          <mat-slide-toggle formControlName="isofferactive"></mat-slide-toggle>
-        </div> -->
-
-        <!-- <mat-form-field appearance="outline">
-          <mat-label>Offer Title</mat-label>
-          <input
-            matInput
-            placeholder="Offer Title"
-            formControlName="offertitle"
-          />
-        </mat-form-field> -->
-
-        <!-- <mat-form-field appearance="outline">
-          <mat-label>Start date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker1"
-            formControlName="startdate"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker1"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>End date</mat-label>
-          <input matInput [matDatepicker]="picker2" formControlName="enddate" />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker2"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field> -->
 
         <mat-form-field appearance="outline">
           <mat-label>Price</mat-label>
@@ -153,47 +134,49 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
+          <mat-label>GST Percentage</mat-label>
+          <input matInput placeholder="GST Percentage" formControlName="gstPercentage" type="number" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Stock Available</mat-label>
+          <input matInput placeholder="GST Percentage" formControlName="countInstock" type="number" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
           <!-- <mat-label>Unit</mat-label>
-          <input matInput formControlName="unit" /> -->
-          <mat-select placeholder="Unit" formControlName="unit">
+                    <input matInput formControlName="unit" /> -->
+          <mat-select placeholder="Unit" formControlName="units">
             <mat-option *ngFor="let unit of Units$ | async" [value]="unit.id">
               {{unit.units}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>GST Percentage</mat-label>
-          <input matInput placeholder="GST Percentage" formControlName="gst" type="number" />
-        </mat-form-field>
+
+
 
         <mat-form-field appearance="outline">
-          <mat-select placeholder="Category" formControlName="category">
-            <mat-option *ngFor="let category of categories$ | async" [value]="category.id">
-              {{category.category}}
+          <mat-select placeholder="Packing Type" formControlName="packaging_type">
+            <mat-option *ngFor="let pack of packing$ | async" [value]="pack.id">
+              {{pack.type}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-select placeholder="Sub Category" formControlName="subcategory">
-            <mat-option *ngFor="let subCategory of subCategories$ | async" [value]="subCategory.id">
-              {{subCategory.name}}
+          <mat-select placeholder="Offer " formControlName="offertitle">
+            <mat-option *ngFor="let offer of offers$ | async" [value]="offer.offer">{{offer.offer}}
             </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="Offer type" formControlName="offer_type">
-            <mat-option *ngFor="let offer of offers$ | async" [value]="offer.id">{{offer.offertitle}}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Start date</mat-label>
-          <input matInput [matDatepicker]="picker1" formControlName="startdate" />
+          <input matInput [matDatepicker]="picker1" formControlName="startDate" />
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>End date</mat-label>
-          <input matInput [matDatepicker]="picker2" formControlName="enddate" />
+          <input matInput [matDatepicker]="picker2" formControlName="endDate" />
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>

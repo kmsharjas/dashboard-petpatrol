@@ -36,7 +36,16 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.user = user as AdminUser;
       const { desig_id } = user;
       this.navList = [
+        { name: 'Products', icon: 'inventory_2', path: 'products' },
+        { name: 'Offers', icon: 'local_offer', path: 'offers' },
+        { name: 'Packing Type', icon: 'local_offer', path: 'packing' },
         { name: 'Orders', icon: 'shopping_cart', path: 'orders' },
+        { name: 'Customers', icon: 'people', path: 'customers' },
+        { name: 'Users', icon: 'people', path: 'users' },
+        { name: 'Testimonials', icon: 'reviews', path: 'testimonials' },
+        { name: 'Categories', icon: 'category', path: 'categories' },
+        { name: 'Banner', icon: 'view_carousel', path: 'banners' },
+        { name: 'Blog', icon: 'rss_feed', path: 'blogs' },
       ];
       if (desig_id === AdminRole.SUPER_ADMIN) {
         this.navList = [

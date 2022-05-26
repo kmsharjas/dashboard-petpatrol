@@ -26,11 +26,11 @@ export class OffersComponent implements OnInit {
 
   constructor(private offerService: OfferService, private fb: FormBuilder) {
     this.offerForm = this.fb.group({
-      offertitle: ['', Validators.required],
-      startdate: [new Date(), Validators.required],
-      enddate: [new Date(), Validators.required],
-      isofferactive: [true, Validators.required],
-      minimumquantity: [1, Validators.required],
+      offer: ['', Validators.required],
+      // startdate: [new Date(), Validators.required],
+      // enddate: [new Date(), Validators.required],
+      // isofferactive: [true, Validators.required],
+      // minimumquantity: [1, Validators.required],
     });
   }
 
@@ -50,8 +50,8 @@ export class OffersComponent implements OnInit {
   onSubmit() {
     const offer: Offer = this.offerForm.value;
     // set date format to yyyy-mm-dd
-    offer.startdate = formatDate(offer.startdate, 'yyyy-MM-dd', 'en');
-    offer.enddate = formatDate(offer.enddate, 'yyyy-MM-dd', 'en');
+    // offer.startdate = formatDate(offer.startdate, 'yyyy-MM-dd', 'en');
+    // offer.enddate = formatDate(offer.enddate, 'yyyy-MM-dd', 'en');
     this.isEditing ? this.updateOffer(offer) : this.createOffer(offer);
   }
 
@@ -86,11 +86,11 @@ export class OffersComponent implements OnInit {
     this.isEditing = false;
     this.currentOffer = undefined;
     this.offerForm.reset({
-      offertitle: '',
-      startdate: new Date(),
-      enddate: new Date(),
-      isofferactive: true,
-      minimumquantity: 1,
+      offer: '',
+      // startdate: new Date(),
+      // enddate: new Date(),
+      // isofferactive: true,
+      // minimumquantity: 1,
     });
     this.refresh$.next(true);
   }
