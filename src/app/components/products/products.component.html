@@ -102,14 +102,16 @@
 
         <mat-form-field appearance="outline">
           <mat-select placeholder="Animal Category" formControlName="animalCategory">
-            <mat-option *ngFor="let category of animalCategories$ | async" [value]="category.id">
+            <mat-option *ngFor="let category of animalCategories$ | async" [value]="category.id"
+              (click)="changeService(category.id)" (cdkAutofill)="changeService(category.id)">
               {{category.animal}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-select placeholder="Service Category" formControlName="serviceCategory">
-            <mat-option *ngFor="let serCategory of serviceCategories$ | async" [value]="serCategory.id">
+            <mat-option *ngFor="let serCategory of serviceCategories$ | async" [value]="serCategory.id"
+              (click)="changeSub(serCategory.id)">
               {{serCategory.service}}
             </mat-option>
           </mat-select>

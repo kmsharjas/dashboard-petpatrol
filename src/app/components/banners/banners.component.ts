@@ -74,16 +74,16 @@ export class BannersComponent implements OnInit {
   createBanner(banner: Banner) {
     if (!this.bannerImage) return;
     //ipload image
-    // console.log(this.bannerImage);
+    console.log(this.bannerImage);
 
     this.bannerservice
       .uploadImage(this.bannerImage)
       .pipe(
         switchMap((result) => {
-          // console.log(result);
+          console.log(result);
 
           if (!result || !result.pdt_img) return of(null);
-          // console.log(result);
+          console.log(result);
           banner.image = result.pdt_img;
           return this.bannerservice.addBanner(banner);
         })

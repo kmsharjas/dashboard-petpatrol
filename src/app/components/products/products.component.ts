@@ -118,6 +118,27 @@ export class ProductsComponent implements OnInit {
     // this.productForm.valueChanges.subscribe(console.log);
   }
 
+  changeService(anim) {
+    console.log(anim);
+    // this.productForm.controlsserviceCategory
+    this.serviceCategories$ = this.categoryService.getServiceCategories().pipe(
+      switchMap((categories) => {
+        return of(categories.filter((category) => category.animal === anim));
+      })
+    );
+  }
+
+  changeSub(serv) {
+    console.log(serv);
+    this.serviceSubCategories$ = this.categoryService
+      .getServiceSubCategories()
+      .pipe(
+        switchMap((categories) => {
+          return of(categories.filter((category) => category.service === serv));
+        })
+      );
+  }
+
   onSubmit() {
     const product = this.productForm.value;
     // set date format to yyyy-mm-dd
@@ -140,6 +161,7 @@ export class ProductsComponent implements OnInit {
     product.price = product.price;
     this.productForm.patchValue({ ...product, thumbnail_img: null });
     this.isOpen = true;
+    console.log(this.productForm.value);
   }
 
   onDelete(product: Product) {

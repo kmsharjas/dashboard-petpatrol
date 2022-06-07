@@ -16,6 +16,7 @@ export class BannerService {
   }
 
   addBanner(banner: Banner) {
+    console.log(banner);
     return this.http.post(`${this.apiRoot}/addbannerimage`, banner);
   }
 
