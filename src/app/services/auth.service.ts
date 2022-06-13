@@ -13,16 +13,14 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
-    return this.http
-      .post(this.apiRoot + '/login/', { username, password })
-      .pipe(
-        map((res: any) => {
-          if (!res.jwt) return false;
-          sessionStorage.setItem('token', res.jwt);
-          sessionStorage.setItem('user_typ', res.jwt);
-          return true;
-        })
-      );
+    return this.http.post(this.apiRoot + '/login', { username, password }).pipe(
+      map((res: any) => {
+        if (!res.jwt) return false;
+        sessionStorage.setItem('token', res.jwt);
+        sessionStorage.setItem('user_typ', res.jwt);
+        return true;
+      })
+    );
   }
 
   getAuthState() {
@@ -31,7 +29,7 @@ export class AuthService {
     if (!token) return of({} as AdminUser);
 
     return this.http
-      .get<AdminUser>(this.apiRoot + '/tokenverification/', {
+      .get<AdminUser>(this.apiRoot + '/tokenverification', {
         headers: { token },
       })
       .pipe(map((user) => ({ ...user, desig_id: `${user.desig_id}` })));

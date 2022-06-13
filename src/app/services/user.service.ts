@@ -16,7 +16,7 @@ export class UserService {
   }
 
   addUser(user: AdminUser) {
-    return this.http.post(`${this.apiRoot}/createuser`, user);
+    return this.http.post(`${this.apiRoot}/register`, user);
   }
 
   updateUser(user: AdminUser) {
@@ -28,6 +28,6 @@ export class UserService {
 
   deleteUser(user: AdminUser) {
     const { id } = user;
-    return this.http.delete(`${this.apiRoot}/deleteoffer/${id}`);
+    return this.http.delete(`${this.apiRoot}/deleteadminusers/${id}`);
   }
 }

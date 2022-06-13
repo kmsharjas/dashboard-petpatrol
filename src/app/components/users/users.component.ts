@@ -77,7 +77,7 @@ export class UsersComponent implements OnInit {
   }
 
   onDelete(user: AdminUser) {
-    if (confirm('Are you sure you want to delete this offer?')) {
+    if (confirm('Are you sure you want to delete this user?')) {
       this.userservice.deleteUser(user).subscribe(() => {
         this.refresh$.next(true);
       });

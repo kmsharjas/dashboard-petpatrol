@@ -26,7 +26,8 @@ import { EventComponent } from './components/event/event.component';
 import { ServiceCategoryComponent } from './components/categories/service-category/service-category.component';
 import { PackingComponent } from './components/packing/packing.component';
 import { CustomersComponent } from './components/customers/customers.component';
-
+import { EditorComponent } from './components/editor/editor.component';
+import { QuillModule } from 'ngx-quill';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { CustomersComponent } from './components/customers/customers.component';
     ServiceCategoryComponent,
     PackingComponent,
     CustomersComponent,
+    EditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +60,7 @@ import { CustomersComponent } from './components/customers/customers.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    QuillModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

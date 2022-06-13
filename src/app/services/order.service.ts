@@ -31,9 +31,10 @@ export class OrderService {
   }
 
   updateOrderStatus(order: Order) {
-    const { id, order_status } = order;
-    return this.http.post<any>(`${this.apiRoot}/updateorderstatus/${id}`, {
+    const { id, order_status, order_id } = order;
+    return this.http.post<any>(`${this.apiRoot}/updateorderstatus`, {
       order_status,
+      order_id: id,
     });
   }
   // addOffer(offer: Offer) {

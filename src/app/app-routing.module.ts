@@ -5,6 +5,7 @@ import { BlogsComponent } from './components/blogs/blogs.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { ComboProductsComponent } from './components/combo-products/combo-products.component';
 import { CustomersComponent } from './components/customers/customers.component';
+import { EditorComponent } from './components/editor/editor.component';
 import { EventComponent } from './components/event/event.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -38,6 +39,7 @@ const routes: Routes = [
       { path: 'banners', component: BannersComponent },
       { path: 'blogs', component: BlogsComponent },
       { path: 'event', component: EventComponent },
+      { path: 'editor', component: EditorComponent },
       // { path: 'units', component: UnitsComponent },
     ],
   },

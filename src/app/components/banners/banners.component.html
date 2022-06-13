@@ -8,20 +8,16 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="h1content">
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>h1content</th>
+    <td mat-cell *matCellDef="let row">{{ row.h1content }}</td>
+  </ng-container>
+
   <ng-container matColumnDef="h4content">
-    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>h4content</th>
-    <td mat-cell *matCellDef="let row">{{ row.h4content }}</td>
+    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>h4contentbold</th>
+    <td mat-cell *matCellDef="let row">{{ row.h4content}}</td>
   </ng-container>
 
-  <ng-container matColumnDef="h2contentbold">
-    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>h2contentbold</th>
-    <td mat-cell *matCellDef="let row">{{ row.h2contentbold }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="h2contentlight">
-    <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>h2contentlight</th>
-    <td mat-cell *matCellDef="let row">{{ row.h2contentlight }}</td>
-  </ng-container>
 
   <ng-container matColumnDef="actions">
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef></th>
@@ -56,7 +52,7 @@
     <div class="flex space-x-4 items-center">
       <mat-icon inline class="h-12 text-5xl">view_carousel</mat-icon>
       <p class="font-bold text-2xl m-0">
-        {{ isEditing ? "Update" : "Add" }} Banner
+        {{ isEditing ? "Update" : "Add" }} Offer Banner
       </p>
     </div>
 
@@ -64,7 +60,7 @@
       <div class="w-full flex relative flex-col gap-4 items-stretch">
         <div class="my-1">
           <mat-label class="text-sm font-medium text-gray-900 block mb-2">
-            Product Image
+            Banner Image
           </mat-label>
           <input
             class="block w-full cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg"
@@ -74,13 +70,20 @@
 
 
         <mat-form-field appearance="outline">
+          <mat-label>h1 Content</mat-label>
+          <input matInput placeholder="Price" formControlName="h1content" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>h4 Content</mat-label>
           <input matInput placeholder="Price" formControlName="h4content" />
         </mat-form-field>
-
+        <button mat-raised-button type="submit" [disabled]="bannerForm.invalid" color="primary"
+          class="self-center w-1/2 rounded-full">
+          {{ isEditing ? "Update" : "Create" }}
+        </button>
       </div>
 
-      <div class="w-full relative flex flex-col gap-2 items-stretch">
+      <!-- <div class="w-full relative flex flex-col gap-2 items-stretch">
 
         <mat-form-field appearance="outline">
           <mat-label>h2 Content Bold</mat-label>
@@ -98,7 +101,7 @@
           {{ isEditing ? "Update" : "Create" }}
         </button>
 
-      </div>
+      </div> -->
 
 
     </form>

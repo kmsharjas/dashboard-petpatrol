@@ -21,9 +21,9 @@
       </button>
       <span>Dashboard Pet-Patrol</span>
       <span class="flex-1"></span>
-      <span>Admin</span>
-      <span *ngIf="user?.desig_id === '1'">Super Admin</span>
-      <span *ngIf="user?.desig_id === '2'">Back Office</span>
+      <!-- <span>Admin</span> -->
+      <span *ngIf="user?.desig_id === '1'">Admin</span>
+      <span *ngIf="user?.desig_id === '2'">User</span>
       <span *ngIf="user?.desig_id === '3'">Shop</span>
       <button mat-icon-button (click)="logout()">
         <mat-icon aria-hidden="false" aria-label="Example home icon">logout</mat-icon>

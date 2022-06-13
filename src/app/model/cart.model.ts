@@ -60,9 +60,9 @@ export interface OrderItem {
 
 export enum OrderStatus {
   CREATED = 'created',
-  PROCESSING = 'processing',
-  SHIPPED = 'shipped',
-  OUT_FOR_DELIVERY = 'deliveryout',
-  DELIVERED = 'delivered',
-  CANCELLED = 'cancelled',
+  PROCESSING = 'PROCESSING',
+  SHIPPED = 'SHIPPED',
+  OUT_FOR_DELIVERY = 'OUT FOR DELIVERY',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED',
 }

@@ -4,6 +4,8 @@
 
 export const environment = {
   apiBaseUrl: 'http://115.246.243.234:6002',
+  // apiBaseUrl: 'http://127.0.0.1:8000',
+
   // apiBaseUrl: 'http://192.168.29.252:8001',
   // apiBaseUrl:"http://192.168.216.91:8001",
   // apiBaseUrl:"http://127.0.0.1:8003",

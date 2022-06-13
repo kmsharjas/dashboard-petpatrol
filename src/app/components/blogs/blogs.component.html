@@ -3,8 +3,8 @@
     <th class="bg-gray-200 uppercase" mat-header-cell *matHeaderCellDef>Blog Title</th>
     <td mat-cell *matCellDef="let row">
       <span class="flex gap-2 items-center py-2">
-        <img [src]="row.image" alt="row.name" class="w-12 h-12 rounded-md" />
-        <span>{{ row.title }}</span>
+        <img [src]="row.thumb_Image" alt="row.name" class="w-12 h-12 rounded-md" />
+        <span>{{ row.heading }}</span>
       </span>
     </td>
   </ng-container>
@@ -28,12 +28,20 @@
   <tr mat-row *matRowDef="let row; columns: displayColoumns"></tr>
 </table>
 
-<button mat-fab class="fixed bottom-4 right-4 bg-green-500" (click)="isOpen = !isOpen" cdkOverlayOrigin
-  #trigger="cdkOverlayOrigin">
+<button mat-fab class="fixed bottom-4 right-4 bg-green-500" routerLink="/editor">
   <mat-icon>add</mat-icon>
 </button>
 
-<ng-template cdkConnectedOverlay [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="resetVariables()"
+
+
+
+
+
+
+
+
+
+<!-- <ng-template cdkConnectedOverlay [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="resetVariables()"
   [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen" [cdkConnectedOverlayOffsetX]="-80"
   [cdkConnectedOverlayOffsetY]="48">
   <div class="bg-white w-auto px-6 py-8 rounded-md shadow-md" role="dialog">
@@ -77,4 +85,4 @@
 
     </form>
   </div>
-</ng-template>
+</ng-template> -->

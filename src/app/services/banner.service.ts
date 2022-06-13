@@ -12,19 +12,20 @@ export class BannerService {
   constructor(private http: HttpClient) {}
 
   getBanners() {
-    return this.http.get<Banner[]>(`${this.apiRoot}/listbanner`);
+    return this.http.get<Banner[]>(`${this.apiRoot}/listofferbanner`);
   }
 
   addBanner(banner: Banner) {
     console.log(banner);
-    return this.http.post(`${this.apiRoot}/addbannerimage`, banner);
+    return this.http.post(`${this.apiRoot}/addofferbanner`, banner);
   }
 
   uploadImage(image: File) {
+    console.log(image);
     const formData = new FormData();
-    formData.append('pdt_img', image);
-    return this.http.post<{ img_id: string; pdt_img: string }>(
-      `${this.apiRoot}/addproductsimages`,
+    formData.append('image', image);
+    return this.http.post<{ img_id: string; image: string }>(
+      `${this.apiRoot}/addimages`,
       formData
     );
   }
@@ -33,11 +34,11 @@ export class BannerService {
     // console.log(banner);
     const { id, ...data } = banner;
     // console.log(banner);
-    return this.http.put(`${this.apiRoot}/updatebannerimage/${id}`, data);
+    return this.http.put(`${this.apiRoot}/updateofferbanner/${id}`, data);
   }
 
   deleteBanner(banner: Banner) {
     const { id } = banner;
-    return this.http.delete(`${this.apiRoot}/deletebanner/${id}`);
+    return this.http.delete(`${this.apiRoot}/deleteofferbanner/${id}`);
   }
 }

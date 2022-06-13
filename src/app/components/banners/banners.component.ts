@@ -20,19 +20,12 @@ export class BannersComponent implements OnInit {
   bannerForm: FormGroup;
   currentBanner?: Banner;
   bannerImage?: File;
-  displayColoumns = [
-    'image',
-    'h4content',
-    'h2contentbold',
-    'h2contentlight',
-    'actions',
-  ];
+  displayColoumns = ['image', 'h1content', 'h4content', 'actions'];
   constructor(private bannerservice: BannerService, private fb: FormBuilder) {
     this.bannerForm = this.fb.group({
       image: ['', Validators.required],
       h4content: ['', Validators.required],
-      h2contentbold: ['', Validators.required],
-      h2contentlight: ['', Validators.required],
+      h1content: ['', Validators.required],
     });
   }
 
@@ -82,9 +75,9 @@ export class BannersComponent implements OnInit {
         switchMap((result) => {
           console.log(result);
 
-          if (!result || !result.pdt_img) return of(null);
+          if (!result || !result.image) return of(null);
           console.log(result);
-          banner.image = result.pdt_img;
+          banner.image = result.image;
           return this.bannerservice.addBanner(banner);
         })
       )
@@ -107,9 +100,9 @@ export class BannersComponent implements OnInit {
         .uploadImage(this.bannerImage)
         .pipe(
           switchMap((result) => {
-            if (!result || !result.pdt_img) return of(null);
+            if (!result || !result.image) return of(null);
             // console.log(result);
-            banner.image = result.pdt_img;
+            banner.image = result.image;
             return this.bannerservice.updateBanner({
               ...banner,
               id: this.currentBanner?.id,

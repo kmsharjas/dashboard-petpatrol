@@ -1,0 +1,37 @@
+<div class="container">
+  <form [formGroup]="blogForm">
+    <div class=" w-full flex relative flex-col gap-4 items-stretch">
+      <mat-form-field appearance="outline">
+        <mat-label>Blog Tittle</mat-label>
+        <input matInput placeholder="Blog Tittle" [value]="title" formControlName="heading" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Thumbnail Description</mat-label>
+        <textarea matInput cols="30" rows="3" maxlength="290" formControlName="titleDesc"></textarea>
+      </mat-form-field>
+
+      <div class="my-1">
+        <mat-label class="text-sm font-medium text-gray-900 block mb-2">
+          Blog Thumbnail Image
+        </mat-label>
+        <input
+          class="block w-full cursor-pointer bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-transparent text-sm rounded-lg"
+          type="file" accept="image/*" formControlName="thumb_Image" (change)="onFileChange($event)" />
+      </div>
+
+      <div class="h-80">
+        <quill-editor formControlName="content"></quill-editor>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container mt-20">
+
+
+  <button mat-raised-button type="submit" style="float: right;" color="primary" class="w-1/6 h-12 rounded-full"
+    (click)="onSubmit()">
+    {{ isEditing ? "Update" : "Save" }}
+  </button>
+</div>
