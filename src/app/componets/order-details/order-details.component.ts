@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -9,6 +10,7 @@ import {
 } from 'rxjs';
 import { Order, OrderStatus } from 'src/app/model/cart.model';
 import { OrderService } from 'src/app/services/order.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-order-details',
@@ -18,17 +20,22 @@ import { OrderService } from 'src/app/services/order.service';
 export class OrderDetailsComponent implements OnInit {
   OrderStatus = OrderStatus;
   orderId: number;
-
+  courier;
   order$: Observable<Order>;
 
   refresh$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-
+  envApiRoot = environment.apiBaseUrl;
   constructor(
     private route: ActivatedRoute,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
+    this.http.get(this.envApiRoot + '/listcourierdetails').subscribe((res) => {
+      console.log(res);
+      this.courier = res[0];
+    });
     this.order$ = combineLatest([this.refresh$, this.route.params]).pipe(
       switchMap(([refresh, params]) => {
         this.orderId = params['id'];
@@ -59,6 +66,7 @@ export class OrderDetailsComponent implements OnInit {
 
   async updateOrder(order: Order) {
     await lastValueFrom(this.orderService.updateOrder(order));
+    alert('Consignment number updated');
     this.refresh$.next(true);
   }
 

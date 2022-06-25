@@ -23,11 +23,11 @@ export class UserService {
     // console.log(user);
     const { id, ...data } = user;
     // console.log(user);
-    return this.http.put(`${this.apiRoot}/updateadminusers/${id}`, data);
+    return this.http.put(`${this.apiRoot}/updateusers/${id}`, data);
   }
 
   deleteUser(user: AdminUser) {
     const { id } = user;
-    return this.http.delete(`${this.apiRoot}/deleteadminusers/${id}`);
+    return this.http.delete(`${this.apiRoot}/deleteusers/${id}`);
   }
 }

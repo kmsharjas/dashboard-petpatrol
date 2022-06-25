@@ -92,9 +92,10 @@
       </span> &nbsp;
       <a [matMenuTriggerFor]="courriersMenu" *ngIf="!order.payment.dispatched_at">change</a>
       <mat-menu #courriersMenu="matMenu">
-        <button *ngFor="let item of ['Professionals Courrier', 'Blue Dart','Delhivery','Trackon']" mat-menu-item
-          (click)="changeCourier(order, item)">
-          {{ item}}
+        <!-- <button *ngFor="let item of ['Professionals Courrier', 'Blue Dart','Delhivery','Trackon']" mat-menu-item
+          (click)="changeCourier(order, item)"> -->
+        <button *ngFor="let item of courier">
+          {{ item.companyName}}
         </button>
       </mat-menu>
     </p>

@@ -78,30 +78,30 @@
       <div class="w-full flex relative flex-col gap-4 items-stretch">
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
-          <input matInput placeholder="Product Name" formControlName="name" />
+          <input matInput formControlName="name" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Mobile</mat-label>
-          <input matInput placeholder="Product Name" formControlName="mobile_no" />
+          <input matInput formControlName="mobile_no" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>password</mat-label>
-          <input matInput placeholder="Product Name" formControlName="password" />
+          <input matInput formControlName="password" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Address 1</mat-label>
-          <input matInput placeholder="Product Name" formControlName="addr_line1" />
+          <input matInput formControlName="addr_line1" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Address 3</mat-label>
-          <input matInput placeholder="Product Name" formControlName="addr_line3" />
+          <input matInput formControlName="addr_line3" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>District</mat-label>
-          <mat-select placeholder="Category" formControlName="district">
+          <mat-select placeholder="Select District" formControlName="district">
             <mat-option *ngFor="let district of districts$ | async" [value]="district.id">
               {{district.district}}
             </mat-option>
@@ -112,11 +112,11 @@
       <div class="w-full relative flex flex-col gap-2 items-stretch">
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput placeholder="Product Name" formControlName="email" />
+          <input matInput formControlName="email" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input matInput placeholder="Product Name" formControlName="username" />
+          <input matInput formControlName="username" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Designation</mat-label>
@@ -128,11 +128,11 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Address 2</mat-label>
-          <input matInput placeholder="Product Name" formControlName="addr_line2" />
+          <input matInput formControlName="addr_line2" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Pin code</mat-label>
-          <input matInput placeholder="Product Name" formControlName="pincode" />
+          <input matInput formControlName="pincode" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>State</mat-label>

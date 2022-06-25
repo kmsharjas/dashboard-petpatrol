@@ -142,8 +142,6 @@ export class ProductsComponent implements OnInit {
   onSubmit() {
     const product = this.productForm.value;
     // set date format to yyyy-mm-dd
-    // product.startdate = formatDate(product.startdate, 'yyyy-MM-dd', 'en');
-    // product.enddate = formatDate(product.enddate, 'yyyy-MM-dd', 'en');
     product.animalCategory = +product.animalCategory;
     product.serviceCategory = +product.serviceCategory;
     product.serviceSubcategory = +product.serviceSubcategory;
