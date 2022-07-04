@@ -34,7 +34,8 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.http.get(this.envApiRoot + '/listcourierdetails').subscribe((res) => {
       console.log(res);
-      this.courier = res[0];
+      this.courier = res;
+      console.log(this.courier);
     });
     this.order$ = combineLatest([this.refresh$, this.route.params]).pipe(
       switchMap(([refresh, params]) => {

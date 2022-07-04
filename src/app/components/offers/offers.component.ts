@@ -71,11 +71,13 @@ export class OffersComponent implements OnInit {
   }
 
   createOffer(offer: Offer) {
+    offer.offer = offer.offer.toLowerCase();
     this.offerService.addOffer(offer).subscribe(() => this.resetVariables());
   }
 
   updateOffer(offer: Offer) {
     if (!this.currentOffer) return;
+    offer.offer = offer.offer.toLowerCase();
     this.offerService
       .updateOffer({ ...offer, id: this.currentOffer.id })
       .subscribe(() => this.resetVariables());

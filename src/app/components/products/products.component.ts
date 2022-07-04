@@ -57,6 +57,7 @@ export class ProductsComponent implements OnInit {
   currentProduct?: Product;
   productImage?: File;
   unit: any;
+  thumb: any;
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
@@ -75,9 +76,11 @@ export class ProductsComponent implements OnInit {
       serviceSubcategory: ['', Validators.required],
       gstPercentage: ['', Validators.required],
       offertitle: ['', Validators.required],
-      isProductiveactive: ['', Validators.required],
-      startDate: [new Date(), Validators.required],
-      endDate: [new Date(), Validators.required],
+      isProductiveactive: [true, Validators.required],
+      startDate: [null],
+      endDate: [null],
+      // startDate: [new Date(), Validators.required],
+      // endDate: [new Date(), Validators.required],
       units: ['', Validators.required],
       thumbnail_img: ['', Validators.required],
       packaging_type: ['', Validators.required],
@@ -99,6 +102,9 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isEditing = false;
+    this.productForm.patchValue({ isProductiveactive: true });
+
     this.refresh$
       .pipe(switchMap(() => this.productService.getProducts()))
       .subscribe((products) => {
@@ -148,16 +154,36 @@ export class ProductsComponent implements OnInit {
     product.startDate = formatDate(product.startDate, 'yyyy-MM-dd', 'en');
     product.endDate = formatDate(product.endDate, 'yyyy-MM-dd', 'en');
     this.isEditing ? this.updateProduct(product) : this.createProduct(product);
+    // product.thumbnail_img = this.thumb? this.updateProduct(product) : this.createProduct(product);
   }
 
   onEdit(product: Product) {
     console.log(product);
-    this.productForm.get('thumbnail_img').setValue(product.thumbnail_img);
+    this.thumb = product.thumbnail_img;
+    console.log(this.thumb);
+
+    // this.productForm.get('thumbnail_img').setValue(product.thumbnail_img);
+    this.productForm.get('offertitle').setValue(product.offertitle);
+    console.log(product.thumbnail_img);
     this.isEditing = true;
+    console.log(this.isEditing);
     this.currentProduct = product;
     // product.price = product.actual_price;
     product.price = product.price;
+
     this.productForm.patchValue({ ...product, thumbnail_img: null });
+
+    if (product.thumbnail_img) {
+      this.productForm.controls['thumbnail_img'].setValidators(null);
+      this.productForm.controls['thumbnail_img'].updateValueAndValidity();
+    } else {
+      this.productForm.controls['thumbnail_img'].setValidators([
+        Validators.required,
+      ]);
+      this.productForm.controls['thumbnail_img'].updateValueAndValidity();
+    }
+
+    // this.productForm.get('thumbnail_img').setValue(product.thumbnail_img);
     this.isOpen = true;
     console.log(this.productForm.value);
   }
@@ -237,6 +263,13 @@ export class ProductsComponent implements OnInit {
       startdate: new Date(),
       enddate: new Date(),
     });
+
+    this.productForm.patchValue({ isProductiveactive: true });
+
+    this.productForm.controls['thumbnail_img'].setValidators([
+      Validators.required,
+    ]);
+    this.productForm.controls['thumbnail_img'].updateValueAndValidity();
     this.refresh$.next(true);
   }
 }

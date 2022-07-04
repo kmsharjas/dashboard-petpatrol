@@ -85,20 +85,18 @@
   <!--Delivery Updation-->
   <div class="rounded-md shadow bg-white p-6">
     <p class="font-bold tex-xl mb-2">Delivery Details</p>
-
     <p>Courrier:
       <span>
         {{ order.payment.courier }}
       </span> &nbsp;
       <a [matMenuTriggerFor]="courriersMenu" *ngIf="!order.payment.dispatched_at">change</a>
       <mat-menu #courriersMenu="matMenu">
-        <!-- <button *ngFor="let item of ['Professionals Courrier', 'Blue Dart','Delhivery','Trackon']" mat-menu-item
-          (click)="changeCourier(order, item)"> -->
-        <button *ngFor="let item of courier">
+        <button *ngFor="let item of courier" mat-menu-item (click)="changeCourier(order, item.companyName)">
           {{ item.companyName}}
         </button>
       </mat-menu>
     </p>
+
     <p>Consignment No:
       <input class="border-0 border-b border-slate-400 focus:ring-0 focus:border-b-2 focus:border-green-400" type="text"
         [(ngModel)]="order.payment.consignment_number">
